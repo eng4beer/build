@@ -12,4 +12,4 @@
       wait: yes
       flavor: m1.small
       auto_floating_ip: yes
-      network: internal
+      network: private
