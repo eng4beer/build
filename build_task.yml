@@ -1,6 +1,7 @@
 ---
 - name: Build System
-  gather_facts: false
+  hosts: all
+  gather_facts: true
   tasks:
   - name: test
     ping
