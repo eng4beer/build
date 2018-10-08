@@ -4,4 +4,4 @@
   gather_facts: true
   tasks:
   - name: test
-    ping
+    ping:
