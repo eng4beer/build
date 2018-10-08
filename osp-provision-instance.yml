@@ -6,10 +6,10 @@
   - name: Deploy an instance
     os_server:
       state: present
-      name: webserver
-      image: rhel
-      key_name: precision
+      name: "{{ instance_name }}"
+      image: "{{ image_name }}"
+      key_name: "{{ key_name }}"
       wait: yes
-      flavor: m1.small
-      auto_floating_ip: yes
-      network: private
+      flavor: "{{ flavor_name }}"
+      auto_floating_ip: "{{ auto_ip }}"
+      network: "{{ network_name }}"
