@@ -1,5 +1,4 @@
 ---
----
 - name: Build System
   gather_facts: false
   tasks:
