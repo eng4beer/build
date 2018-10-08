@@ -1,9 +1,15 @@
 ---
-name: launch an instance
-os_server:
-  state: present
-  name: vm1
-  image: rhel
-  key_name: "{{ key_name }}"
-  timeout: 200
-  flavor: m1.small
+- name: Deploy on OpenStack
+  hosts: localhost
+  gather_facts: false
+  tasks:
+  - name: Deploy an instance
+    os_server:
+      state: present
+      name: webserver
+      image: rhel
+      key_name: precision
+      wait: yes
+      flavor: m1.small
+      auto_floating_ip: yes
+      network: internal
