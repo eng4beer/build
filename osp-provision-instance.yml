@@ -1,0 +1,13 @@
+---
+tasks:
+- name: launch a compute instance
+  hosts: localhost
+  tasks:
+    - name: launch an instance
+      os_server:
+        state: present
+        name: vm1
+        image: rhel
+        key_name: {{ key_name }}
+        timeout: 200
+        flavor: m1.small
