@@ -3,5 +3,19 @@
   hosts: all
   gather_facts: true
   tasks:
-  - name: test
-    ping:
+  - name: Register as user auto-subscribe to available content.
+    redhat_subscription:
+      state: present
+      username: "{{ rhsm_username }}"
+      password: "{{ rhsm_password }}"
+      auto_attach: true
+      
+  - name: Disable all RHSM repositories
+    rhsm_repository:
+      name: '*'
+      state: disabled
+
+  - name: Enable a "{{ item }}" repos
+    rhsm_repository:
+      name: "{{ item }}"
+    with_items: "{{ enabled_repos }}"
