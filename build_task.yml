@@ -2,6 +2,7 @@
 - name: Build System
   hosts: all
   gather_facts: true
+  become: true
   tasks:
   - name: Register as user auto-subscribe to available content.
     redhat_subscription:
