@@ -1,0 +1,10 @@
+---
+- name: Build System
+  hosts: all
+  gather_facts: false
+  tasks:
+  - name: Register as user auto-subscribe to available content.
+    redhat_subscription:
+      state: absent
+      username: "{{ rhsm_username }}"
+      password: "{{ rhsm_password }}"
