@@ -5,7 +5,7 @@
   tasks:
   - name: Deploy an instance
     os_server:
-      state: {{ state }}
+      state: "{{ state }}"
       name: "{{ instance_name }}"
       image: "{{ image_name }}"
       key_name: "{{ key_name }}"
