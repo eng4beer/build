@@ -11,5 +11,5 @@
     
   - name: Output results of test to file                                                                     
     copy:                                                                                              
-      content: "{{ bro_output.stdout }}" 
+      content: "{{ bro_output }}" 
       dest: /tmp/bro_output.txt
