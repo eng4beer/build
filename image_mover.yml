@@ -4,10 +4,12 @@
   gather_facts: true
   tasks:
   - os_image:
+      cloud: build
       name: "{{ image_name }}"
       container_format: bare
       disk_format: raw
       state: present
+      is_public: no
       filename: "{{ image_url }}"
       properties:
         build_date: "{{ ansible_date_time.date }}"
