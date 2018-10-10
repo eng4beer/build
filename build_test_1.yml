@@ -16,3 +16,6 @@
 
   - name: Create swift container for build
     command: swift --os-auth-url "{{ swift_auth_url }}" --auth-version 3 --os-project-name "{{ swift_project }}" --os-project-domain-name "{{ swift_domain }}" --os-username "{{ swift_username }}" --os-user-domain-name "{{ swift_domain }}" --os-password "{{ swift_password }}" post "{{ ansible_machine_id }}"
+
+  - name: Upload Unit tests to swift
+    command: swift --os-auth-url "{{ swift_auth_url }}" --auth-version 3 --os-project-name "{{ swift_project }}" --os-project-domain-name "{{ swift_domain }}" --os-username "{{ swift_username }}" --os-user-domain-name "{{ swift_domain }}" --os-password "{{ swift_password }}" upload "{{ ansible_machine_id }}" /tmp/bro_output.txt
