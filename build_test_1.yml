@@ -13,3 +13,7 @@
     copy:                                                                                              
       content: "{{ bro_output }}" 
       dest: /tmp/bro_output.txt
+
+  - fetch:
+      src: /tmp/bro_output.txt
+      dest: /tmp/fetched
