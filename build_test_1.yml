@@ -1,6 +1,6 @@
 ---
 - name: Unit Test for Tool Image
-  hosts: "{{ openstack.name.build_instance0009 }}"
+  hosts: "{{ test_subject }}"
   gather_facts: true
   become: true
   tasks:
