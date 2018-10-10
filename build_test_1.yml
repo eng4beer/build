@@ -38,3 +38,13 @@
   
   - name: Upload STIG Viewer Report to object store
     command: swift --os-auth-url "{{ swift_auth_url }}" --auth-version 3 --os-project-name "{{ swift_project }}" --os-project-domain-name "{{ swift_domain }}" --os-username "{{ swift_username }}" --os-user-domain-name "{{ swift_domain }}" --os-password "{{ swift_password }}" upload "{{ ansible_machine_id }}" /tmp/results-stig.xml
+      
+  - name: Harden System
+    command: oscap xccdf eval --remediate --profile stig-rhel7-disa --report /tmp/ssg-rhel7-report-remediate.html --stig-viewer /tmp/results-stig-remediate.xml /usr/share/xml/scap/ssg/content/ssg-rhel7-ds.xml
+    ignore_errors: yes
+  
+  - name: Upload Post Hardened SCAP Report  to object store
+    command: swift --os-auth-url "{{ swift_auth_url }}" --auth-version 3 --os-project-name "{{ swift_project }}" --os-project-domain-name "{{ swift_domain }}" --os-username "{{ swift_username }}" --os-user-domain-name "{{ swift_domain }}" --os-password "{{ swift_password }}" upload "{{ ansible_machine_id }}" /tmp/ssg-rhel7-report-remediate.html
+  
+  - name: Upload Post Hardened STIG Viewer Report to object store
+    command: swift --os-auth-url "{{ swift_auth_url }}" --auth-version 3 --os-project-name "{{ swift_project }}" --os-project-domain-name "{{ swift_domain }}" --os-username "{{ swift_username }}" --os-user-domain-name "{{ swift_domain }}" --os-password "{{ swift_password }}" upload "{{ ansible_machine_id }}" /tmp/results-stig-remediate.xml
