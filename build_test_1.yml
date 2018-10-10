@@ -1,0 +1,17 @@
+---
+- name: Unit Test for Tool Image
+  hosts: all
+  gather_facts: true
+  become: true
+  tasks:
+  - name:
+    stat:
+      path: /opt/bro/bin/bro
+    register: bro_output
+    
+  - name: Output results to file
+    command: echo "{{ bro_output }}" > /tmp/bro_results
+    
+  - fetch:
+    src: /tmp/bro_results
+    dest: /tmp/fetched
