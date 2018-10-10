@@ -4,7 +4,16 @@
   gather_facts: true
   become: true
   tasks:
-  - name:
+
+  - name: Install packages to handle tests and upload artifacts from unit test
+    yum:
+      name: 
+        - python2-swiftclient
+        - openscap-scanner
+        - scap-security-guide
+      state: latest
+
+  - name: Check Bro binary
     stat:
       path: /opt/bro/bin/bro
     register: bro_output
@@ -13,14 +22,6 @@
     copy:                                                                                              
       content: "{{ bro_output }}" 
       dest: /tmp/bro_output.txt
-
-  - name: Install swift client package to upload artifacts from unit test
-    yum:
-      name: 
-        - python2-swiftclient
-        - openscap-scanner
-        - scap-security-guide
-      state: latest
       
   - name: Conduct Security Scan
     command: oscap xccdf eval --profile stig-rhel7-disa --report /tmp/ssg-rhel7-report.html --stig-viewer /tmp/results-stig.xml /usr/share/xml/scap/ssg/content/ssg-rhel7-ds.xml
