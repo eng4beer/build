@@ -5,10 +5,12 @@
   tasks:
   - os_image:
       cloud: deploy
-      name: "{{ image_name }}-{{ ansible_date_time.date }}"
+      name: "{{ image_name }}
       container_format: bare
       disk_format: raw
       state: present
       is_public: no
       filename: "{{ image_url }}"
+      properties:
+        build_date: "{{ ansible_date_time.date }}"
 
