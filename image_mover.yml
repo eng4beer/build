@@ -12,4 +12,4 @@
       is_public: no
       filename: "{{ image_url }}"
       properties:
-        build_date: "{{ ansible_date_time.date }}"
+        - build_date: "{{ ansible_date_time.date }}"
