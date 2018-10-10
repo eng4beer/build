@@ -4,7 +4,6 @@
   gather_facts: true
   tasks:
   - os_image:
-      cloud: build
       name: "{{ image_name }}"
       container_format: bare
       disk_format: raw
