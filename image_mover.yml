@@ -5,7 +5,7 @@
   tasks:
   - os_image:
       cloud: deploy
-      name: "{{ image_name }}
+      name: "{{ image_name }}"
       container_format: bare
       disk_format: raw
       state: present
