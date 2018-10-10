@@ -23,7 +23,8 @@
 
   - name: Add Bro Repo
     yum_repository:
-      name: The Bro Network Security Monitor (CentOS_7)
+      name: bro
+      description: The Bro Network Security Monitor (CentOS_7)
       file: bro_repo
       baseurl: http://download.opensuse.org/repositories/network:/bro/CentOS_7/
       gpgcheck: yes
