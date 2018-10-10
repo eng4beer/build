@@ -9,7 +9,7 @@
       path: /opt/bro/bin/bro
     register: bro_output
     
-  - name: write jstack                                                                                
+  - name: Output results of test to file                                                                     
     copy:                                                                                              
       content: "{{ bro_output.stdout }}" 
       dest: /tmp/bro_output.txt
