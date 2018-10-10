@@ -10,7 +10,7 @@
     register: bro_output
     
   - name: Output results to file
-    command: echo "{{ bro_output }}" > /tmp/bro_results
+    command: echo "{{ bro_output.stdout }}" > /tmp/bro_results
     
   - fetch:
     src: /tmp/bro_results
