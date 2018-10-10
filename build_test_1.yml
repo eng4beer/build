@@ -9,11 +9,7 @@
       path: /opt/bro/bin/bro
     register: bro_output
     
-   - name: write jstack                                                                                
-     copy:                                                                                              
-       content: "{{ bro_output.stdout }}" 
-       dest: /tmp/bro_out.txt
-    
-  - fetch:
-    src: /tmp/bro_results
-    dest: /tmp/fetched
+  - name: write jstack                                                                                
+    copy:                                                                                              
+      content: "{{ bro_output.stdout }}" 
+      dest: /tmp/bro_output.txt
