@@ -16,4 +16,4 @@
 
   - fetch:
       src: /tmp/bro_output.txt
-      dest: "/tmp/jobs/{{ test_subject }}-fetched'
+      dest: "/tmp/jobs/{{ test_subject }}-fetched"
