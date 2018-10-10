@@ -21,7 +21,7 @@
       name: "{{ item }}"
     with_items: "{{ enabled_repos }}"
 
-  - name: Add multiple repositories into the same file (1/2)
+  - name: Add Bro Repo
     yum_repository:
       name: The Bro Network Security Monitor (CentOS_7)
       file: bro_repo
@@ -30,7 +30,7 @@
       gpgkey: http://download.opensuse.org/repositories/network:/bro/CentOS_7/repodata/repomd.xml.key
       enabled: yes
       
-  - name: install the latest version of Apache
+  - name: Install bro into instance
     yum:
       name: bro
       state: latest
