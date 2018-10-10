@@ -1,6 +1,6 @@
 ---
 - name: Add Floating IP's to all the servers
-  hosts: all
+  hosts: localhost
   gather_facts: false
 
   tasks:
