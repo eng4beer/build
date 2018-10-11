@@ -22,6 +22,7 @@
       cloud: "{{ build_project }}"
       name: "{{ openstack_servers.0.id }}"
       state: absent
+      wait: yes
 
   - name: Take a snapshot of the image
     command: openstack --os-identity-api-version 3 --os-project-domain-name "{{ domain }}" --os-user-domain-name "{{ domain }}" --os-username "{{ username }}" --os-password "{{ password }}" --os-project-name "{{ build_project }}" --os-auth-url "{{ keystone_endpoint }}" server image create "{{ instance_name }}" --name "{{ openstack_servers.0.id }}" --wait
@@ -29,6 +30,13 @@
   - name: Download the image to the image mover
     command: openstack --os-identity-api-version 3 --os-project-domain-name "{{ domain }}" --os-user-domain-name "{{ domain }}" --os-username "{{ username }}" --os-password "{{ password }}" --os-project-name "{{ build_project }}" --os-auth-url "{{ keystone_endpoint }}" image save --file "/images/{{ openstack_servers.0.id }}.img" "{{ openstack_servers.0.id }}"
 
+  - name: Remove any current version of production image
+    os_image:
+      cloud: "{{ prodcution_project }}"
+      name: "{{ production_image_name }}"
+      state: absent
+      wait: yes
+      
   - name: Upload the instance to production projects
     os_image:
       cloud: "{{ prodcution_project }}"
