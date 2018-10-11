@@ -5,6 +5,11 @@
   become: true
   tasks:
 
+  - name: "Enable a repos for unit testing packages"
+    rhsm_repository:
+      name: "{{ item }}"
+    with_items: "{{ enabled_repos }}"
+    
   - name: Install packages to handle tests and upload artifacts from unit test
     yum:
       name: 
