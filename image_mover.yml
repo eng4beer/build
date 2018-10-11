@@ -1,16 +1,37 @@
 ---
 - name: Build System
   hosts: image_mover
-  gather_facts: true
+  gather_facts: false
   tasks:
-  - os_image:
-      cloud: deploy
-      name: "{{ image_name }}"
+  
+  - name: Get Instance ID for tagging and tracking
+    os_server_facts:
+      cloud: "{{ build_project }}"   
+      server: "{{ instance_name }}"
+
+  - name: Shutdown the instance to be moved
+    os_server_action:
+      cloud: build     
+      action: stop
+      server: "{{ instance_name }}"
+      timeout: 200
+      wait: yes
+
+  - name: Take a snapshot of the image
+    command: openstack --os-identity-api-version 3 --os-project-domain-name "{{ domain }}" --os-user-domain-name "{{ domain }}" --os-username "{{ username }}" --os-password "{{ password }}" --os-project-name "{{ build_project }}" --os-auth-url "{{ keystone_endpoint }}" server image create "{{ instance_name }}" --name "{{ instance_name }}_snapshot"
+
+  - name: Download the image to the image mover
+    command: openstack --os-identity-api-version 3 --os-project-domain-name "{{ domain }}" --os-user-domain-name "{{ domain }}" --os-username "{{ username }}" --os-password "{{ password }}" --os-project-name "{{ build_project }}" --os-auth-url "{{ keystone_endpoint }}" image save --file "/tmp/{{ instance_name }}"_snapshot.img" "{{ instance_name }}"_snapshot"
+
+   - name: Upload the instance to production projects
+     os_image:
+      cloud: "{{ prodcution_project }}"
+      name: "{{ production_image_name }}"
       container_format: bare
       disk_format: raw
       state: present
-      is_public: no
-      filename: "{{ image_url }}"
+      filename: "/tmp/{{ instance_name }}"_snapshot.img"
       properties:
-        build_date: "{{ ansible_date_time.iso8601_basic_short }}"
+        build_date: "{{ ansible_date_time.date }}"
+        build_id: "{{ openstack_servers.0.id }}"
 
