@@ -23,8 +23,8 @@
   - name: Download the image to the image mover
     command: openstack --os-identity-api-version 3 --os-project-domain-name "{{ domain }}" --os-user-domain-name "{{ domain }}" --os-username "{{ username }}" --os-password "{{ password }}" --os-project-name "{{ build_project }}" --os-auth-url "{{ keystone_endpoint }}" image save --file "/tmp/{{ instance_name }}"_snapshot.img" "{{ instance_name }}"_snapshot"
 
-   - name: Upload the instance to production projects
-     os_image:
+  - name: Upload the instance to production projects
+    os_image:
       cloud: "{{ prodcution_project }}"
       name: "{{ production_image_name }}"
       container_format: bare
