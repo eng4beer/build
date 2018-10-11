@@ -53,4 +53,4 @@
   - name: Clean artifact path
     file:
       state: absent
-      path: /images/{{ openstack_servers.0.id }}.img"
+      path: "/images/{{ openstack_servers.0.id }}.img"
