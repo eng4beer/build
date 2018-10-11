@@ -2,6 +2,7 @@
 - name: Build System
   hosts: image_mover
   gather_facts: true
+  become: yes
   tasks:
   
   - name: Get Instance ID for tagging and tracking
