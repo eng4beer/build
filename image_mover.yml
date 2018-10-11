@@ -29,6 +29,7 @@
       name: "{{ production_image_name }}"
       container_format: bare
       disk_format: raw
+      is_public: no
       state: present
       filename: "/images/{{ openstack_servers.0.id }}.img"
       properties:
