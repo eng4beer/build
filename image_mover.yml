@@ -11,7 +11,7 @@
 
   - name: Shutdown the instance to be moved
     os_server_action:
-      cloud: build     
+      cloud: "{{ build_project }}"   
       action: stop
       server: "{{ instance_name }}"
       timeout: 200
