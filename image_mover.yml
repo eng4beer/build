@@ -22,7 +22,7 @@
     shell: openstack --os-identity-api-version 3 --os-project-domain-name "{{ domain }}" --os-user-domain-name "{{ domain }}" --os-username "{{ username }}" --os-password "{{ password }}" --os-project-name "{{ build_project }}" --os-auth-url "{{ keystone_endpoint }}" server image create "{{ instance_name }}" --name "{{ openstack_servers.0.id }}"
 
   - name: Download the image to the image mover
-    shell: openstack --os-identity-api-version 3 --os-project-domain-name "{{ domain }}" --os-user-domain-name "{{ domain }}" --os-username "{{ username }}" --os-password "{{ password }}" --os-project-name "{{ build_project }}" --os-auth-url "{{ keystone_endpoint }}" image save --file "/images/{{ openstack_servers.0.id }}.img" "{{ openstack_servers.0.id }}"
+    raw: openstack --os-identity-api-version 3 --os-project-domain-name "{{ domain }}" --os-user-domain-name "{{ domain }}" --os-username "{{ username }}" --os-password "{{ password }}" --os-project-name "{{ build_project }}" --os-auth-url "{{ keystone_endpoint }}" image save --file "/images/{{ openstack_servers.0.id }}.img" "{{ openstack_servers.0.id }}"
 
   - name: Upload the instance to production projects
     os_image:
