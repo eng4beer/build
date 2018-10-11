@@ -2,7 +2,6 @@
 - name: Build System
   hosts: image_mover
   gather_facts: true
-  become: yes
   tasks:
   
   - name: Get Instance ID for tagging and tracking
@@ -17,12 +16,18 @@
       server: "{{ instance_name }}"
       timeout: 200
       wait: yes
+      
+  - name: Remove any current snapshots of the image
+    os_image:
+      cloud: "{{ build_project }}"
+      name: "{{ openstack_servers.0.id }}"
+      state: absent
 
   - name: Take a snapshot of the image
-    shell: openstack --os-identity-api-version 3 --os-project-domain-name "{{ domain }}" --os-user-domain-name "{{ domain }}" --os-username "{{ username }}" --os-password "{{ password }}" --os-project-name "{{ build_project }}" --os-auth-url "{{ keystone_endpoint }}" server image create "{{ instance_name }}" --name "{{ openstack_servers.0.id }}"
+    command: openstack --os-identity-api-version 3 --os-project-domain-name "{{ domain }}" --os-user-domain-name "{{ domain }}" --os-username "{{ username }}" --os-password "{{ password }}" --os-project-name "{{ build_project }}" --os-auth-url "{{ keystone_endpoint }}" server image create "{{ instance_name }}" --name "{{ openstack_servers.0.id }}" --wait
 
   - name: Download the image to the image mover
-    raw: openstack --os-identity-api-version 3 --os-project-domain-name "{{ domain }}" --os-user-domain-name "{{ domain }}" --os-username "{{ username }}" --os-password "{{ password }}" --os-project-name "{{ build_project }}" --os-auth-url "{{ keystone_endpoint }}" image save --file "/images/{{ openstack_servers.0.id }}.img" "{{ openstack_servers.0.id }}"
+    command: openstack --os-identity-api-version 3 --os-project-domain-name "{{ domain }}" --os-user-domain-name "{{ domain }}" --os-username "{{ username }}" --os-password "{{ password }}" --os-project-name "{{ build_project }}" --os-auth-url "{{ keystone_endpoint }}" image save --file "/images/{{ openstack_servers.0.id }}.img" "{{ openstack_servers.0.id }}"
 
   - name: Upload the instance to production projects
     os_image:
