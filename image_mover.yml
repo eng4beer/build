@@ -18,10 +18,10 @@
       wait: yes
 
   - name: Take a snapshot of the image
-    command: openstack --os-identity-api-version 3 --os-project-domain-name "{{ domain }}" --os-user-domain-name "{{ domain }}" --os-username "{{ username }}" --os-password "{{ password }}" --os-project-name "{{ build_project }}" --os-auth-url "{{ keystone_endpoint }}" server image create "{{ instance_name }}" --name "{{ instance_name }}_snapshot"
+    command: openstack --os-identity-api-version 3 --os-project-domain-name "{{ domain }}" --os-user-domain-name "{{ domain }}" --os-username "{{ username }}" --os-password "{{ password }}" --os-project-name "{{ build_project }}" --os-auth-url "{{ keystone_endpoint }}" server image create "{{ instance_name }}" --name "{{ openstack_servers.0.id }}"
 
   - name: Download the image to the image mover
-    command: openstack --os-identity-api-version 3 --os-project-domain-name "{{ domain }}" --os-user-domain-name "{{ domain }}" --os-username "{{ username }}" --os-password "{{ password }}" --os-project-name "{{ build_project }}" --os-auth-url "{{ keystone_endpoint }}" image save --file "/images/{{ instance_name }}_snapshot.img" "{{ instance_name }}_snapshot"
+    command: openstack --os-identity-api-version 3 --os-project-domain-name "{{ domain }}" --os-user-domain-name "{{ domain }}" --os-username "{{ username }}" --os-password "{{ password }}" --os-project-name "{{ build_project }}" --os-auth-url "{{ keystone_endpoint }}" image save --file "/images/{{ openstack_servers.0.id }}.img" "{{ openstack_servers.0.id }}"
 
   - name: Upload the instance to production projects
     os_image:
@@ -30,7 +30,7 @@
       container_format: bare
       disk_format: raw
       state: present
-      filename: "/images/{{ instance_name }}_snapshot.img"
+      filename: "/images/{{ openstack_servers.0.id }}.img"
       properties:
         build_date: "{{ ansible_date_time.date }}"
         build_id: "{{ openstack_servers.0.id }}"
