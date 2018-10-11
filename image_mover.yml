@@ -49,6 +49,7 @@
       properties:
         build_date: "{{ ansible_date_time.date }}"
         build_id: "{{ openstack_servers.0.id }}"
+      wait: yes
 
   - name: Clean artifact path
     file:
