@@ -1,0 +1,20 @@
+#!/bin/bash
+export image=rhel75.qcow2
+export build_dir=~/build
+export image_path=$build_dir/$image
+cp ~/Downloads/rhel-server-7.5-update-4-x86_64-kvm.qcow2 $image_path
+virt-customize -a $image_path --upload scap-security-guide-0.1.36-10.el7_5.noarch.rpm:/opt --upload openscap-scanner-1.2.16-8.el7_5.x86_64.rpm:/opt --upload openscap-1.2.16-8.el7_5.x86_64.rpm:/opt --upload xml-common-0.6.3-39.el7.noarch.rpm:/opt --run-command 'yum -y install /opt/*.rpm '
+virt-customize -a $image_path --run-command "oscap xccdf generate fix --template urn:xccdf:fix:script:sh --profile xccdf_org.ssgproject.content_profile_stig-rhel7-disa --output /opt/overcloud-remediation.sh /usr/share/xml/scap/ssg/content/ssg-rhel7-ds.xml"
+## Getting Hardening Script from Image
+sudo mkdir -p /mnt/guest
+sudo LIBGUESTFS_BACKEND=direct  guestmount -a $image_path -i /mnt/guest
+sudo cp /mnt/guest/opt/overcloud-remediation.sh $build_dir/
+sudo guestunmount /mnt/guest
+sudo chown $USER:$USER $build_dir/overcloud-remediation.sh
+## Removing commands from hardening script that will break the image, or not work
+sed -i '/xccdf_org.ssgproject.content_rule_security_patches_up_to_date/,+6 d' overcloud-remediation.sh
+sed -i '/xccdf_org.ssgproject.content_rule_ensure_gpgcheck_globally_activated/,+87 d' overcloud-remediation.sh
+sed -i '/package_command install dracut-fips/,+20 d' overcloud-remediation.sh
+sed -i "s/service_command enable firewalld/service_command disable firewalld/g" overcloud-remediation.sh
+
+#virt-customize --selinux-relabel -a $image_path
