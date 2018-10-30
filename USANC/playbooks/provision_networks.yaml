@@ -7,8 +7,8 @@
   - name: Create Openshift Network
     os_network:
       state: "{{ state }}"
-      name: "{{ item.network }}"
-    with_items: "{{ networks }}"
+      name: "{{ item }}"
+    loop: "{{ networks|subelements('network') }}"
       
       
   - name: Create Openshift Subnet
