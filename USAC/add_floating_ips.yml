@@ -6,7 +6,7 @@
   tasks:
   - name: Get list of instance names to add floating ips to
     os_server_facts:
-      server: build*
+      server: "{{ instance_name }}"
 
   - os_floating_ip:
        server: "{{ item.name }}"
