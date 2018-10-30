@@ -2,29 +2,39 @@
 - name: Create Networks, Subnets and Routers
   hosts: localhost
   gather_facts: no
+  vars_files: 
+    - ../vars/main.yml
   tasks:
+  
+  - name: with_subelements -> loop
+    debug:
+      msg: "{{ item }}"
+    loop: "{{ lookup('nested', networks.network) }}"
 
   - name: Create Openshift Network
     os_network:
+      cloud: "{{ cloud }}"
       state: "{{ state }}"
       name: "{{ item }}"
-    loop: "{{ networks|subelements('network') }}"
+    loop: "{{ lookup('nested', networks.network) }}"
       
       
-  - name: Create Openshift Subnet
-    os_subnet:
-      state: present
-      network_name: "{{ item.network }}"
-      name: "{{ item.network }}"
-      cidr: "{{ item.cidr }}"
-      dns_nameservers: "{{ dns_servers }}"
-      gateway_ip: "{{ item.gateway }}"
-    with_items: "{{ networks }}"
+#  - name: Create Openshift Subnet
+#    os_subnet:
+#      cloud: "{{ cloud }}"
+#      state: present
+#      network_name: "{{ item.network }}"
+#      name: "{{ item.network }}"
+#      cidr: "{{ item.subnet }}"
+#      dns_nameservers: "{{ dns_servers }}"
+#      gateway_ip: "{{ item.gateway }}"
+#    loop: "{{lookup('subelements', networks, 'network', 'subnet', 'gateway', {'skip_missing': True})}}"
 
-  - name: Create Edge Router
-    os_router:
-      name: "{{ item.router }}"
-      state: present
-      network: "{{ external_network }}"
-      interfaces: "{{ item.subnet }}"
-    with_items: "{{ networks }}"
+#  - name: Create Edge Router
+#    os_router:
+#      cloud: "{{ cloud }}"
+#      name: "{{ item.router }}"
+#      state: present
+#      network: "{{ external_network }}"
+#      interfaces: "{{ item.subnet }}"
+#    with_items: "{{ networks }}"

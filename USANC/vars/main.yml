@@ -3,16 +3,13 @@ dns_servers: 192.168.254.2
 external_network: public
 networks:
   - network:
-      - internal
-      - test
-      - dev
-  - cidr:
-      - 172.16.157.0/24
-      - 172.16.148.0/24
-      - 172.16.137.0/24
-  - gatway:
-      - 172.16.157.1
-      - 172.16.148.1
-      - 172.16.137.1
-
+      - internal:
+        - subnet: 172.16.157.0/24
+        - gateway: 172.16.157.1
+      - test:
+        - subnet: 172.16.148.0/24
+        - gateway: 172.16.148.1
+      - dev:
+        - subnet: 172.16.137.0/24
+        - gateway: 172.16.137.1
 
