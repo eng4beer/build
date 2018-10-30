@@ -1,3 +1,4 @@
+state: present
 dns_servers: 192.168.254.2
 external_network: public
 networks:
