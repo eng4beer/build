@@ -1,0 +1,30 @@
+---
+- name: Create Networks, Subnets and Routers
+  hosts: localhost
+  gather_facts: no
+  tasks:
+
+  - name: Create Openshift Network
+    os_network:
+      state: "{{ state }}"
+      name: "{{ item.network }}"
+    with_items: "{{ networks }}"
+      
+      
+  - name: Create Openshift Subnet
+    os_subnet:
+      state: present
+      network_name: "{{ item.network }}"
+      name: "{{ item.network }}"
+      cidr: "{{ item.cidr }}"
+      dns_nameservers: "{{ dns_servers }}"
+      gateway_ip: "{{ item.gateway }}"
+    with_items: "{{ networks }}"
+
+  - name: Create Edge Router
+    os_router:
+      name: "{{ item.router }}"
+      state: present
+      network: "{{ external_network }}"
+      interfaces: "{{ item.subnet }}"
+    with_items: "{{ networks }}"
